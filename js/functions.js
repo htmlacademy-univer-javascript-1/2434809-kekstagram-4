@@ -1,24 +1,19 @@
 function lenghtOfLine(line, maxLenght) {
-  if (line.lenght <= maxLenght){
-    return true;
-  }
-  else{
-    return false;
-  }
+
+  return line.lenght <= maxLenght;
+
 }
-function PalindromeLine(line){
-  line.replaceAll();
-  line.toLowerCase();
-  const newLine = line;
+function palindromeLine(line){
+  line.replaceAll().toLowerCase();
   let emptyLine='';
-  for (let i = newLine.lenght-1;i>0;i--){
-    emptyLine += newLine[i];
+  for (let i = line.lenght-1;i>0;i--){
+    emptyLine += line[i];
   }
-  if (emptyLine  === newLine){
-    return true;
-  }
+
+  return (emptyLine  === line);
+
 }
-PalindromeLine('Лёша на полке клопа нашёл ');
+palindromeLine('Лёша на полке клопа нашёл ');
 lenghtOfLine('проверяемая строка', 20);
 lenghtOfLine('проверяемая строка', 18);
 lenghtOfLine('проверяемая строка', 10);
