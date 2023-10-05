@@ -4,13 +4,13 @@ function lenghtOfLine(line, maxLenght) {
 
 }
 function palindromeLine(line){
-  line.replaceAll().toLowerCase();
+  const resultLine = line.replaceAll().toLowerCase();
   let emptyLine='';
-  for (let i = line.lenght-1;i>0;i--){
-    emptyLine += line[i];
+  for (let i = resultLine.lenght-1;i>0;i--){
+    emptyLine += resultLine[i];
   }
 
-  return (emptyLine  === line);
+  return (emptyLine  === resultLine);
 
 }
 palindromeLine('Лёша на полке клопа нашёл ');
