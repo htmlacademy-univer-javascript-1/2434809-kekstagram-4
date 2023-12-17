@@ -26,7 +26,7 @@ const Like = {
 
 const Comment = {
   MIN: 1,
-  MAX: 10
+  MAX: 20
 };
 
 const addComment = () => ({
