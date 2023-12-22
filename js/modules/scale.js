@@ -5,7 +5,7 @@ const DEFAULT_SCALE_STEP = 25;
 const buttonBigger = document.querySelector('.scale__control--bigger');
 const buttonSmaller = document.querySelector('.scale__control--smaller');
 const scaleCounter = document.querySelector('.scale__control--value');
-const picturePreview = document.querySelector('.img-upload__preview');
+const picturePreview = document.querySelector('.img-upload__preview img');
 
 const setScaleOnPicture = () => {
   const currentValue = parseFloat(scaleCounter.value);
@@ -35,3 +35,5 @@ const resetScaleModifier = () => {
 export {resetScaleModifier};
 buttonBigger.addEventListener('click', onButtonBiggerClick);
 buttonSmaller.addEventListener('click', onButtonSmallerClick);
+
+

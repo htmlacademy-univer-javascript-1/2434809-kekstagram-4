@@ -12,3 +12,5 @@ const createFullImage = (photoData) => {
 };
 
 export {createFullImage};
+
+
