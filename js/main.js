@@ -1,4 +1,4 @@
-import './photos.js';
-import './form.js';
-import './scale.js';
-import './effects.js';
+import { renderPosts } from './preview.js';
+import './upload-form.js';
+
+renderPosts();

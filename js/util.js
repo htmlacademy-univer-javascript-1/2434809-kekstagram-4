@@ -1,15 +1,42 @@
-const randomiseNumber = (minNumber, maxNumber) => {
-  if (minNumber < 0 || maxNumber < 0) {
+const Keys = {
+  ESC: 'Esc',
+  ESCAPE: 'Escape',
+};
+
+const getRandomInt = (min, max) => {
+  if (min < 0 || max < 0) {
     return -1;
   }
 
-  if (minNumber > maxNumber) {
-    [minNumber, maxNumber] = [maxNumber, minNumber];
+  if (max < min) {
+    [min, max] = [max, min];
   }
 
-  return Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const getRandomElement = (array) => {
+  return array[getRandomInt(0, array.length - 1)];
+};
 
-export{randomiseNumber, isEscapeKey};
+const getUniqueValue = (array, min, max) => {
+  const id = getRandomInt(min, max);
+
+  if (array.some((item) => item === id)) {
+    getUniqueValue(array, min, max);
+  }
+
+  return id;
+};
+
+const removeDuplicate = (arr) => [...new Set(arr)];
+
+const checkingMaxLength = (text, count) => {
+  return text.length <= count;
+};
+
+const isEscEvent = (evt) => {
+  return evt.key === Keys.ESC || evt.key === Keys.ESCAPE;
+};
+
+export { getRandomInt, getRandomElement, getUniqueValue, removeDuplicate, checkingMaxLength, isEscEvent };
