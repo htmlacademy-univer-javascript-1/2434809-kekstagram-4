@@ -18,7 +18,7 @@ const imgUploadPreview = document.querySelector('.img-upload__preview img');
 
 const imgEffect = {
   effect: 'none',
-  value: 100,
+  value: 10,
 };
 
 const resetEffectImage = () => {
