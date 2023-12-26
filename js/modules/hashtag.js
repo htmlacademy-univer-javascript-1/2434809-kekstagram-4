@@ -86,3 +86,4 @@ const onHashtagInput = () => {
 hashtag.addEventListener('input', onHashtagInput);
 
 export {hashtag};
+

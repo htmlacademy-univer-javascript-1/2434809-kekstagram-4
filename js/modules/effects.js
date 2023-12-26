@@ -1,10 +1,10 @@
 const DEFAULT_START_VALUE = 100;
 
 const sliderContainer = document.querySelector('.effect-level');
-const sliderElement = document.querySelector('.effect-level__slider');
+const sliderElement = sliderContainer.querySelector('.effect-level__slider');
 const picturePreview = document.querySelector('.img-upload__preview img');
 const effects = document.querySelector('.effects__list');
-const effectValue = document.querySelector('.effect-level__value');
+const effectValue = sliderContainer.querySelector('.effect-level__value');
 
 let currentEffect = '';
 let effectUnitMeasure = '';
@@ -97,7 +97,7 @@ const updateSlider = ({ RANGE: { MIN, MAX }, START, STEP, CURRENT_EFFECT, EFFECT
 const resetEffectSettings = () => {
   picturePreview.classList = '';
   picturePreview.style.filter = '';
-  updateSlider(sliderOptions.NONE, DEFAULT_START_VALUE, 'none');
+  updateSlider(sliderOptions.NONE, DEFAULT_START_VALUE, 'NONE');
 };
 
 noUiSlider.create(sliderElement, {
@@ -114,6 +114,8 @@ sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
   picturePreview.style.filter = `${currentEffect}(${unencoded[handle]}${effectUnitMeasure})`;
   effectValue.setAttribute('value', unencoded[handle]);
 });
+
+resetEffectSettings();
 
 effects.addEventListener('change', (evt) => {
   const target = evt.target;
@@ -149,3 +151,7 @@ effects.addEventListener('change', (evt) => {
     updateSlider(sliderOptions[targetEffect], DEFAULT_START_VALUE, 'block');
   }
 });
+
+
+export {resetEffectSettings};
+

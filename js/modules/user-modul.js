@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey } from '../utils/util.js';
 import { createFullImage } from './full-photo.js';
 import { createComment } from './comments.js';
 
@@ -19,16 +19,18 @@ const onDocumentEscapeKeyDown = (evt) => {
   }
 };
 
-const openFullPhoto = () => {
-  fullImage.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentEscapeKeyDown);
-};
-
 const closeFullPhoto = () => {
   fullImage.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentEscapeKeyDown);
+  closeButton.removeEventListener('click', closeFullPhoto);
+};
+
+const openFullPhoto = () => {
+  fullImage.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentEscapeKeyDown);
+  closeButton.addEventListener('click', closeFullPhoto);
 };
 
 const showFullImage = (photo, photoData) => {
@@ -77,7 +79,5 @@ const showFullImage = (photo, photoData) => {
     openFullPhoto();
   });
 };
-
-closeButton.addEventListener('click', closeFullPhoto);
 
 export {showFullImage};
