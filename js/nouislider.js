@@ -1,13 +1,10 @@
-/*! nouislider - 14.6.3 - 11/19/2020 */
+
 (function(factory) {
   if (typeof define === "function" && define.amd) {
-      // AMD. Register as an anonymous module.
       define([], factory);
   } else if (typeof exports === "object") {
-      // Node/CommonJS
       module.exports = factory();
   } else {
-      // Browser globals
       window.noUiSlider = factory();
   }
 })(function() {
@@ -15,7 +12,6 @@
 
   var VERSION = "14.6.3";
 
-  //region Helper Methods
 
   function isValidFormatter(entry) {
       return typeof entry === "object" && typeof entry.to === "function" && typeof entry.from === "function";
@@ -29,33 +25,26 @@
       return value !== null && value !== undefined;
   }
 
-  // Bindable version
   function preventDefault(e) {
       e.preventDefault();
   }
 
-  // Removes duplicates from an array.
   function unique(array) {
       return array.filter(function(a) {
           return !this[a] ? (this[a] = true) : false;
       }, {});
   }
 
-  // Round a value to the closest 'to'.
   function closest(value, to) {
       return Math.round(value / to) * to;
   }
 
-  // Current position of an element relative to the document.
   function offset(elem, orientation) {
       var rect = elem.getBoundingClientRect();
       var doc = elem.ownerDocument;
       var docElem = doc.documentElement;
       var pageOffset = getPageOffset(doc);
 
-      // getBoundingClientRect contains left scroll in Chrome on Android.
-      // I haven't found a feature detection that proves this. Worst case
-      // scenario on mis-match: the 'tap' feature on horizontal sliders breaks.
       if (/webkit.*Chrome.*Mobile/i.test(navigator.userAgent)) {
           pageOffset.x = 0;
       }
@@ -65,12 +54,10 @@
           : rect.left + pageOffset.x - docElem.clientLeft;
   }
 
-  // Checks whether a value is numerical.
   function isNumeric(a) {
       return typeof a === "number" && !isNaN(a) && isFinite(a);
   }
 
-  // Sets a class and removes it after [duration] ms.
   function addClassFor(element, className, duration) {
       if (duration > 0) {
           addClass(element, className);
@@ -80,25 +67,20 @@
       }
   }
 
-  // Limits a value to 0 - 100
   function limit(a) {
       return Math.max(Math.min(a, 100), 0);
   }
 
-  // Wraps a variable as an array, if it isn't one yet.
-  // Note that an input array is returned by reference!
   function asArray(a) {
       return Array.isArray(a) ? a : [a];
   }
 
-  // Counts decimals
   function countDecimals(numStr) {
       numStr = String(numStr);
       var pieces = numStr.split(".");
       return pieces.length > 1 ? pieces[1].length : 0;
   }
 
-  // http://youmightnotneedjquery.com/#add_class
   function addClass(el, className) {
       if (el.classList && !/\s/.test(className)) {
           el.classList.add(className);
@@ -107,7 +89,6 @@
       }
   }
 
-  // http://youmightnotneedjquery.com/#remove_class
   function removeClass(el, className) {
       if (el.classList && !/\s/.test(className)) {
           el.classList.remove(className);
@@ -119,14 +100,13 @@
       }
   }
 
-  // https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
   function hasClass(el, className) {
       return el.classList
           ? el.classList.contains(className)
           : new RegExp("\\b" + className + "\\b").test(el.className);
   }
 
-  // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
+
   function getPageOffset(doc) {
       var supportPageOffset = window.pageXOffset !== undefined;
       var isCSS1Compat = (doc.compatMode || "") === "CSS1Compat";
@@ -147,12 +127,7 @@
       };
   }
 
-  // we provide a function to compute constants instead
-  // of accessing window.* as soon as the module needs it
-  // so that we do not compute anything if not needed
   function getActions() {
-      // Determine the events to bind. IE11 implements pointerEvents without
-      // a prefix, which breaks compatibility with the IE10 implementation.
       return window.navigator.pointerEnabled
           ? {
                 start: "pointerdown",
@@ -172,8 +147,6 @@
                 };
   }
 
-  // https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
-  // Issue #785
   function getSupportsPassive() {
       var supportsPassive = false;
 
@@ -187,7 +160,6 @@
 
           window.addEventListener("test", null, opts);
       } catch (e) {}
-      /* eslint-enable */
 
       return supportsPassive;
   }
@@ -196,26 +168,19 @@
       return window.CSS && CSS.supports && CSS.supports("touch-action", "none");
   }
 
-  //endregion
 
-  //region Range Calculation
-
-  // Determine the size of a sub-range in relation to a full range.
   function subRangeRatio(pa, pb) {
       return 100 / (pb - pa);
   }
 
-  // (percentage) How many percent is this value of this range?
   function fromPercentage(range, value, startRange) {
       return (value * 100) / (range[startRange + 1] - range[startRange]);
   }
 
-  // (percentage) Where is this value on this range?
   function toPercentage(range, value) {
       return fromPercentage(range, range[0] < 0 ? value + Math.abs(range[0]) : value - range[0], 0);
   }
 
-  // (value) How much is this percentage on this range?
   function isPercentage(range, value) {
       return (value * (range[1] - range[0])) / 100 + range[0];
   }
@@ -230,7 +195,6 @@
       return j;
   }
 
-  // (percentage) Input a value, find where, on a scale of 0-100, it applies.
   function toStepping(xVal, xPct, value) {
       if (value >= xVal.slice(-1)[0]) {
           return 100;
@@ -245,9 +209,7 @@
       return pa + toPercentage([va, vb], value) / subRangeRatio(pa, pb);
   }
 
-  // (value) Input a percentage, find where it is on the specified range.
   function fromStepping(xVal, xPct, value) {
-      // There is no range group that fits 100
       if (value >= 100) {
           return xVal.slice(-1)[0];
       }
@@ -261,7 +223,6 @@
       return isPercentage([va, vb], (value - pa) * subRangeRatio(pa, pb));
   }
 
-  // (percentage) Get the step that applies at a certain value.
   function getStep(xPct, xSteps, snap, value) {
       if (value === 100) {
           return value;
@@ -271,37 +232,30 @@
       var a = xPct[j - 1];
       var b = xPct[j];
 
-      // If 'snap' is set, steps are used as fixed points on the slider.
       if (snap) {
-          // Find the closest position, a or b.
           if (value - a > (b - a) / 2) {
               return b;
           }
-
           return a;
       }
 
       if (!xSteps[j - 1]) {
           return value;
       }
-
       return xPct[j - 1] + closest(value - xPct[j - 1], xSteps[j - 1]);
   }
 
   function handleEntryPoint(index, value, that) {
       var percentage;
 
-      // Wrap numerical input in an array.
       if (typeof value === "number") {
           value = [value];
       }
 
-      // Reject any invalid input, by testing whether value is an array.
       if (!Array.isArray(value)) {
           throw new Error("noUiSlider (" + VERSION + "): 'range' contains invalid value.");
       }
 
-      // Covert min/max syntax to 0 and 100.
       if (index === "min") {
           percentage = 0;
       } else if (index === "max") {
@@ -310,18 +264,13 @@
           percentage = parseFloat(index);
       }
 
-      // Check for correct input.
       if (!isNumeric(percentage) || !isNumeric(value[0])) {
           throw new Error("noUiSlider (" + VERSION + "): 'range' value isn't numeric.");
       }
 
-      // Store values.
       that.xPct.push(percentage);
       that.xVal.push(value[0]);
 
-      // NaN will evaluate to false too, but to keep
-      // logging clear, set step explicitly. Make sure
-      // not to override the 'step' setting with false.
       if (!percentage) {
           if (!isNaN(value[1])) {
               that.xSteps[0] = value[1];
@@ -329,24 +278,20 @@
       } else {
           that.xSteps.push(isNaN(value[1]) ? false : value[1]);
       }
-
       that.xHighestCompleteStep.push(0);
   }
 
   function handleStepPoint(i, n, that) {
-      // Ignore 'false' stepping.
       if (!n) {
           return;
       }
 
-      // Step over zero-length ranges (#948);
       if (that.xVal[i] === that.xVal[i + 1]) {
           that.xSteps[i] = that.xHighestCompleteStep[i] = that.xVal[i];
 
           return;
       }
 
-      // Factor to range ratio
       that.xSteps[i] =
           fromPercentage([that.xVal[i], that.xVal[i + 1]], n, 0) / subRangeRatio(that.xPct[i], that.xPct[i + 1]);
 
@@ -356,10 +301,6 @@
 
       that.xHighestCompleteStep[i] = step;
   }
-
-  //endregion
-
-  //region Spectrum
 
   function Spectrum(entry, snap, singleStep) {
       this.xPct = [];
@@ -373,14 +314,12 @@
       var index;
       var ordered = []; // [0, 'min'], [1, '50%'], [2, 'max']
 
-      // Map the object keys to an array.
       for (index in entry) {
           if (entry.hasOwnProperty(index)) {
               ordered.push([entry[index], index]);
           }
       }
 
-      // Sort all entries by value (numeric sort).
       if (ordered.length && typeof ordered[0][0] === "object") {
           ordered.sort(function(a, b) {
               return a[0][0] - b[0][0];
@@ -391,16 +330,12 @@
           });
       }
 
-      // Convert all entries to subranges.
       for (index = 0; index < ordered.length; index++) {
           handleEntryPoint(ordered[index][1], ordered[index][0], this);
       }
 
-      // Store the actual step values.
-      // xSteps is sorted in the same order as xPct and xVal.
       this.xNumSteps = this.xSteps.slice(0);
 
-      // Convert all numeric steps to the percentage of the subrange they represent.
       for (index = 0; index < this.xNumSteps.length; index++) {
           handleStepPoint(index, this.xNumSteps[index], this);
       }
@@ -411,7 +346,6 @@
       var distances = [];
 
       for (index = 0; index < this.xNumSteps.length - 1; index++) {
-          // last "range" can't contain step size as it is purely an endpoint.
           var step = this.xNumSteps[index];
 
           if (step && (value / step) % 1 !== 0) {
@@ -424,7 +358,6 @@
               );
           }
 
-          // Calculate percentual distance in current range of limit, margin or padding
           distances[index] = fromPercentage(this.xVal, value, index);
       }
 
