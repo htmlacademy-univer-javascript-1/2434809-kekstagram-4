@@ -1,4 +1,5 @@
-import { renderPosts } from './preview.js';
-import './upload-form.js';
+import "./upload-form.js";
+import "./filter.js";
+import { getData } from "./load.js";
 
-renderPosts();
+getData();

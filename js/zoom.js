@@ -4,11 +4,11 @@ const Zoom = {
   STEP: 25,
 };
 
-const scaleControlValue = document.querySelector('.scale__control--value');
-const imgUploadPreview = document.querySelector('.img-upload__preview img');
+const scaleControlValue = document.querySelector(".scale__control--value");
+const imgUploadPreview = document.querySelector(".img-upload__preview img");
 
 const getValue = (percent) => {
-  if (percent[percent.length - 1] === '%') {
+  if (percent[percent.length - 1] === "%") {
     return +percent.slice(0, percent.length - 1);
   } else {
     return +percent;
