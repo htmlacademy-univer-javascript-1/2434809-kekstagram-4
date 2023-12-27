@@ -342,6 +342,7 @@
       // Step over zero-length ranges (#948);
       if (that.xVal[i] === that.xVal[i + 1]) {
           that.xSteps[i] = that.xHighestCompleteStep[i] = that.xVal[i];
+
           return;
       }
 
@@ -412,6 +413,7 @@
       for (index = 0; index < this.xNumSteps.length - 1; index++) {
           // last "range" can't contain step size as it is purely an endpoint.
           var step = this.xNumSteps[index];
+
           if (step && (value / step) % 1 !== 0) {
               throw new Error(
                   "noUiSlider (" +
@@ -429,9 +431,12 @@
       return distances;
   };
 
+  // Calculate the percentual distance over the whole scale of ranges.
+  // direction: 0 = backwards / 1 = forwards
   Spectrum.prototype.getAbsoluteDistance = function(value, distances, direction) {
       var xPct_index = 0;
 
+      // Calculate range where to start calculation
       if (value < this.xPct[this.xPct.length - 1]) {
           while (value > this.xPct[xPct_index + 1]) {
               xPct_index++;
@@ -440,6 +445,7 @@
           xPct_index = this.xPct.length - 2;
       }
 
+      // If looking backwards and the value is exactly at a range separator then look one range further
       if (!direction && value === this.xPct[xPct_index + 1]) {
           xPct_index++;
       }
@@ -455,42 +461,57 @@
       var abs_distance_counter = 0;
       var range_counter = 0;
 
+      // Calculate what part of the start range the value is
       if (direction) {
           start_factor = (value - this.xPct[xPct_index]) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
       } else {
           start_factor = (this.xPct[xPct_index + 1] - value) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
       }
 
+      // Do until the complete distance across ranges is calculated
       while (rest_rel_distance > 0) {
+          // Calculate the percentage of total range
           range_pct = this.xPct[xPct_index + 1 + range_counter] - this.xPct[xPct_index + range_counter];
 
+          // Detect if the margin, padding or limit is larger then the current range and calculate
           if (distances[xPct_index + range_counter] * rest_factor + 100 - start_factor * 100 > 100) {
+              // If larger then take the percentual distance of the whole range
               rel_range_distance = range_pct * start_factor;
+              // Rest factor of relative percentual distance still to be calculated
               rest_factor = (rest_rel_distance - 100 * start_factor) / distances[xPct_index + range_counter];
+              // Set start factor to 1 as for next range it does not apply.
               start_factor = 1;
           } else {
+              // If smaller or equal then take the percentual distance of the calculate percentual part of that range
               rel_range_distance = ((distances[xPct_index + range_counter] * range_pct) / 100) * rest_factor;
+              // No rest left as the rest fits in current range
               rest_factor = 0;
           }
 
           if (direction) {
               abs_distance_counter = abs_distance_counter - rel_range_distance;
+              // Limit range to first range when distance becomes outside of minimum range
               if (this.xPct.length + range_counter >= 1) {
                   range_counter--;
               }
           } else {
               abs_distance_counter = abs_distance_counter + rel_range_distance;
+              // Limit range to last range when distance becomes outside of maximum range
               if (this.xPct.length - range_counter >= 1) {
                   range_counter++;
               }
           }
+
+          // Rest of relative percentual distance still to be calculated
           rest_rel_distance = distances[xPct_index + range_counter] * rest_factor;
       }
+
       return value + abs_distance_counter;
   };
 
   Spectrum.prototype.toStepping = function(value) {
       value = toStepping(this.xVal, this.xPct, value);
+
       return value;
   };
 
@@ -500,6 +521,7 @@
 
   Spectrum.prototype.getStep = function(value) {
       value = getStep(this.xPct, this.xSteps, this.snap, value);
+
       return value;
   };
 
@@ -2580,20 +2602,34 @@
           valueSet(optionsToUpdate.start || v, fireSetEvent);
       }
 
+      // Initialization steps
       function setupSlider() {
+          // Create the base element, initialize HTML and set classes.
+          // Add handles and connect elements.
           scope_Base = addSlider(scope_Target);
+
           addElements(options.connect, scope_Base);
+
+          // Attach user events.
           bindSliderEvents(options.events);
+
+          // Use the public value method to set the start values.
           valueSet(options.start);
+
           if (options.pips) {
               pips(options.pips);
           }
+
           if (options.tooltips) {
               tooltips();
           }
+
           aria();
       }
+
       setupSlider();
+
+      // noinspection JSUnusedGlobalSymbols
       scope_Self = {
           destroy: destroy,
           steps: getNextSteps,
@@ -2603,12 +2639,13 @@
           set: valueSet,
           setHandle: valueSetHandle,
           reset: valueReset,
+          // Exposed for unit testing, don't use this in your application.
           __moveHandles: function(a, b, c) {
               moveHandles(a, b, scope_Locations, c);
           },
-          options: originalOptions,
+          options: originalOptions, // Issue #600, #678
           updateOptions: updateOptions,
-          target: scope_Target,
+          target: scope_Target, // Issue #597
           removePips: removePips,
           removeTooltips: removeTooltips,
           getTooltips: function() {
@@ -2617,27 +2654,39 @@
           getOrigins: function() {
               return scope_Handles;
           },
-          pips: pips
+          pips: pips // Issue #594
       };
 
       return scope_Self;
   }
 
+  // Run the standard initializer
   function initialize(target, originalOptions) {
       if (!target || !target.nodeName) {
           throw new Error("noUiSlider (" + VERSION + "): create requires a single element, got: " + target);
       }
+
+      // Throw an error if the slider was already initialized.
       if (target.noUiSlider) {
           throw new Error("noUiSlider (" + VERSION + "): Slider was already initialized.");
       }
+
+      // Test the options and create the slider environment;
       var options = testOptions(originalOptions, target);
       var api = scope(target, options, originalOptions);
+
       target.noUiSlider = api;
+
       return api;
   }
+
+  // Use an object instead of a function for future expandability;
   return {
+      // Exposed for unit testing, don't use this in your application.
       __spectrum: Spectrum,
       version: VERSION,
+      // A reference to the default classes, allows global changes.
+      // Use the cssClasses option for changes to one slider.
       cssClasses: cssClasses,
       create: initialize
   };

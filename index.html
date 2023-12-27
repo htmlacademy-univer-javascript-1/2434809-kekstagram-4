@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/nouislider.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кекстаграм</title>
@@ -32,7 +30,7 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" action="https://23.javascript.pages.academy/kekstagram" autocomplete="off">
+          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" autocomplete="off">
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
@@ -48,7 +46,7 @@
                   <!-- Изменение размера изображения -->
                   <fieldset class="img-upload__scale  scale">
                     <button type="button" class="scale__control  scale__control--smaller">Уменьшить</button>
-                    <input type="text" class="scale__control  scale__control--value" value="100%" title="Image Scale" name="scale" readonly>
+                    <input type="text" class="scale__control  scale__control--value" value="55%" title="Image Scale" name="scale" readonly>
                     <button type="button" class="scale__control  scale__control--bigger">Увеличить</button>
                   </fieldset>
 
@@ -59,7 +57,7 @@
 
                   <!-- Изменение глубины эффекта, накладываемого на изображение -->
                   <fieldset class="img-upload__effect-level  effect-level">
-                    <input class="effect-level__value" type="text" name="effect-level" value="">
+                    <input class="effect-level__value" type="number" step="any" name="effect-level" value="">
                     <div class="effect-level__slider"></div>
                   </fieldset>
 
@@ -117,8 +115,12 @@
 
                 <!-- Добавление хэш-тегов и комментария к изображению -->
                 <fieldset class="img-upload__text text">
-                  <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
-                  <textarea class="text__description" name="description" maxlength="140" placeholder="Ваш комментарий..."></textarea>
+                  <div class="img-upload__field-wrapper">
+                    <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
+                  </div>
+                  <div class="img-upload__field-wrapper">
+                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
+                  </div>
                 </fieldset>
 
                 <!-- Кнопка для отправки данных на сервер -->
@@ -160,7 +162,7 @@
             </li>
             <li class="social__comment">
               <img class="social__picture" src="img/avatar-3.svg" alt="Аватар комментатора фотографии" width="35" height="35">
-              <p class="social__text">Да это фоташоп!!!!!!!!</p>
+               <p class="social__text">Да это фоташоп!!!!!!!!</p>
             </li>
           </ul>
 
@@ -189,8 +191,6 @@
       </div>
       <ul class="page-footer__contacts  contacts">
         <li><a href="https://twitter.com/htmlacademy_ru" class="contacts__link  contacts__link--twitter">Twitter</a></li>
-        <li><a href="https://www.instagram.com/htmlacademy/" class="contacts__link  contacts__link--instagram">Instagtam</a></li>
-        <li><a href="https://www.facebook.com/htmlacademy" class="contacts__link  contacts__link--facebook">Facebook</a></li>
         <li><a href="https://vk.com/htmlacademy" class="contacts__link  contacts__link--vk">VK</a></li>
       </ul>
     </div>
@@ -215,22 +215,12 @@
     </li>
   </template>
 
-  <!-- Сообщение с ошибкой о получении данных -->
-  <template id="error-receive">
-    <section class="error">
-      <div class="error__inner">
-        <h2 class="error__title">Ошибка при получении данных</h2>
-        <p class="error__subtitle">Будут использованы сгенерированные данные</p>
-      </div>
-    </section>
-  </template>
-
   <!-- Сообщение с ошибкой загрузки изображения -->
   <template id="error">
     <section class="error">
       <div class="error__inner">
         <h2 class="error__title">Ошибка загрузки файла</h2>
-       <button type="button" class="error__button">Загрузить другой файл</button>
+        <button type="button" class="error__button">Загрузить другой файл</button>
       </div>
     </section>
   </template>
@@ -249,7 +239,7 @@
   <template id="messages">
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
-
+  <script scr="functions.js"></script>
   <script src="js/main.js" type="module"></script>
 </body>
 </html>
