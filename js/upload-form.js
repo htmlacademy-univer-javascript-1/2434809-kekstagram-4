@@ -1,17 +1,10 @@
-import {isEscapeKey} from './util.js';
-import {validHashtag, hashtagMaxCount, hashtagErrorMessages, maxScaleValue} from './constants.js';
-import {setCurrentScale, imgUploadPreview} from './scale-picture.js';
-import {slider} from './filters.js';
-import {uploadData} from './fetch.js';
+import { isEscapeKey } from './util.js';
+import { validHashtag, hashtagMaxCount, hashtagErrorMessages, maxScaleValue } from './constants.js';
+import { setCurrentScale, imgUploadPreview } from './scale-picture.js';
+import { slider } from './filters.js';
+import { uploadData } from './fetch.js';
 
-const body = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
-const uploadInput = document.querySelector('.img-upload__input');
-const uploadModal = document.querySelector('.img-upload__overlay');
-const closeFormButton = document.querySelector('.img-upload__cancel');
-const hashtagField = document.querySelector('.text__hashtags');
-const descriptionField = document.querySelector('.text__description');
-const imgUploadSubmit = document.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -26,6 +19,8 @@ const isHashtagsUnique = (tags) => getSplitedHashtags(tags).length === new Set(g
 
 const isHashtagsLimited = (tags) => getSplitedHashtags(tags).length <= hashtagMaxCount;
 
+const hashtagField = document.querySelector('.text__hashtags');
+const descriptionField = document.querySelector('.text__description');
 pristine.addValidator(hashtagField, isHashtagsValid, hashtagErrorMessages[0]);
 pristine.addValidator(hashtagField, isHashtagsUnique, hashtagErrorMessages[1]);
 pristine.addValidator(hashtagField, isHashtagsLimited, hashtagErrorMessages[2]);
@@ -39,6 +34,7 @@ descriptionField.addEventListener('change', () => {
   pristine.validate();
 });
 
+const imgUploadSubmit = document.querySelector('.img-upload__submit');
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
@@ -48,6 +44,8 @@ uploadForm.addEventListener('submit', (evt) => {
   }
 });
 
+const uploadModal = document.querySelector('.img-upload__overlay');
+
 const onDocumentKeydown = (evt) => {
   if (!(document.activeElement === hashtagField || document.activeElement === descriptionField) && isEscapeKey(evt)) {
     evt.preventDefault();
@@ -55,7 +53,10 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function openUploadModal () {
+const body = document.body;
+const closeFormButton = document.querySelector('.img-upload__cancel');
+
+function openUploadModal() {
   uploadModal.classList.remove('hidden');
   body.classList.remove('modal-open');
 
@@ -68,14 +69,15 @@ function openUploadModal () {
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
-function closeUploadModal () {
+function closeUploadModal() {
   uploadModal.classList.add('hidden');
   body.classList.remove('modal-open');
   uploadForm.reset();
   pristine.reset();
   document.removeEventListener('keydown', onDocumentKeydown);
 }
+const uploadInput = document.querySelector('.img-upload__input');
 
 uploadInput.addEventListener('change', openUploadModal);
 
-export {closeUploadModal, uploadModal, imgUploadSubmit};
+export { closeUploadModal, uploadModal, imgUploadSubmit };

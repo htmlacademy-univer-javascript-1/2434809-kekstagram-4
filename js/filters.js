@@ -1,13 +1,6 @@
-import {imgUploadPreview} from './scale-picture.js';
+import { imgUploadPreview } from './scale-picture.js';
 
 const slider = document.querySelector('.img-upload__effect-level');
-const effectNone = document.querySelector('#effect-none');
-const effectChrome = document.querySelector('#effect-chrome');
-const effectSepia = document.querySelector('#effect-sepia');
-const effectMarvin = document.querySelector('#effect-marvin');
-const effectPhobos = document.querySelector('#effect-phobos');
-const effectHeat = document.querySelector('#effect-heat');
-const effectLevelValue = document.querySelector('.effect-level__value');
 
 noUiSlider.create(slider, {
   range: {
@@ -17,15 +10,18 @@ noUiSlider.create(slider, {
   start: 0,
 });
 
+const effectLevelValue = document.querySelector('.effect-level__value');
 slider.noUiSlider.on('update', () => {
   effectLevelValue.value = slider.noUiSlider.get();
 });
 
+const effectNone = document.querySelector('#effect-none');
 effectNone.addEventListener('click', () => {
   slider.classList.add('hidden');
   imgUploadPreview.style.filter = null;
 });
 
+const effectChrome = document.querySelector('#effect-chrome');
 effectChrome.addEventListener('click', () => {
   slider.classList.remove('hidden');
   slider.noUiSlider.updateOptions({
@@ -41,6 +37,9 @@ effectChrome.addEventListener('click', () => {
     imgUploadPreview.style.filter = `grayscale(${effectLevelValue.value})`;
   });
 });
+
+
+const effectSepia = document.querySelector('#effect-sepia');
 
 effectSepia.addEventListener('click', () => {
   slider.classList.remove('hidden');
@@ -58,6 +57,8 @@ effectSepia.addEventListener('click', () => {
   });
 });
 
+const effectMarvin = document.querySelector('#effect-marvin');
+
 effectMarvin.addEventListener('click', () => {
   slider.classList.remove('hidden');
   slider.noUiSlider.updateOptions({
@@ -73,6 +74,8 @@ effectMarvin.addEventListener('click', () => {
     imgUploadPreview.style.filter = `invert(${effectLevelValue.value}%)`;
   });
 });
+
+const effectPhobos = document.querySelector('#effect-phobos');
 
 effectPhobos.addEventListener('click', () => {
   slider.classList.remove('hidden');
@@ -90,6 +93,8 @@ effectPhobos.addEventListener('click', () => {
   });
 });
 
+const effectHeat = document.querySelector('#effect-heat');
+
 effectHeat.addEventListener('click', () => {
   slider.classList.remove('hidden');
   slider.noUiSlider.updateOptions({
@@ -106,4 +111,4 @@ effectHeat.addEventListener('click', () => {
   });
 });
 
-export {slider};
+export { slider };
