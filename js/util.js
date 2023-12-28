@@ -1,44 +1,21 @@
-const Keys = {
-  ESC: 'Esc',
-  ESCAPE: 'Escape',
-};
+const isEscapeKey = (evt) => evt.keyCode === 27;
 
-const getRandomInt = (min, max) => {
-  if (min < 0 || max < 0) {
-    return -1;
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+const shuffleArray = (array) => {
+  const arrCopy = array.slice();
+  for (let currentIndex = 0; currentIndex < arrCopy.length; currentIndex++) {
+    const randomIndex = Math.floor(Math.random() * currentIndex);
+    [arrCopy[currentIndex], arrCopy[randomIndex]] = [arrCopy[randomIndex], arrCopy[currentIndex]];
   }
-
-  if (max < min) {
-    [min, max] = [max, min];
-  }
-
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return arrCopy;
 };
 
-const getRandomElement = (array) => {
-  return array[getRandomInt(0, array.length - 1)];
-};
-
-const getUniqueValue = (array, min, max) => {
-  const id = getRandomInt(min, max);
-
-  if (array.some((item) => item === id)) {
-    getUniqueValue(array, min, max);
-  }
-
-  return id;
-};
-
-const removeDuplicate = (arr) => [...new Set(arr)];
-
-const checkingMaxLength = (text, count) => {
-  return text.length <= count;
-};
-
-// checkingMaxLength('Какая интересная фотка', POSTS_DATA.comment_max_length);
-
-const isEscEvent = (evt) => {
-  return evt.key === Keys.ESC || evt.key === Keys.ESCAPE;
-};
-
-export { getRandomInt, getRandomElement, getUniqueValue, removeDuplicate, checkingMaxLength, isEscEvent };
+export {isEscapeKey, debounce, shuffleArray};

@@ -1,6 +1,6 @@
-import { renderPosts } from './preview.js';
+import {loadData} from './fetch.js';
 import './upload-form.js';
-import { request } from './network.js';
-import { showErrorReceive } from './modal.js';
+import './scale-picture.js';
+import './filters.js';
 
-request(renderPosts, showErrorReceive, 'GET');
+loadData();
