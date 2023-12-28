@@ -35,6 +35,8 @@ const checkingMaxLength = (text, count) => {
   return text.length <= count;
 };
 
+// checkingMaxLength('Какая интересная фотка', POSTS_DATA.comment_max_length);
+
 const isEscEvent = (evt) => {
   return evt.key === Keys.ESC || evt.key === Keys.ESCAPE;
 };
