@@ -1,22 +1,8 @@
-import {shuffleArray} from './util.js';
-import {shownRandomCount} from './constants.js';
-import {creatMiniatures} from './draw-miniatures.js';
+import { shuffleArray } from './util.js';
+import { shownRandomCount } from './constants.js';
+import { creatMiniatures } from './draw-miniatures.js';
 
-const imgFilters = document.querySelector('.img-filters');
-const filterDefaultButton = document.querySelector('#filter-default');
 const filterRandomButton = document.querySelector('#filter-random');
-const filterDiscussedButton = document.querySelector('#filter-discussed');
-
-const onFilterDefault = (picturesData) => {
-  const activeFilter = document.querySelector('.img-filters__button--active');
-  activeFilter.classList.remove('img-filters__button--active');
-  filterDefaultButton.classList.add('img-filters__button--active');
-  const createdMiniatures = document.querySelectorAll('.picture');
-  for (const miniature of createdMiniatures) {
-    miniature.remove();
-  }
-  creatMiniatures(picturesData);
-};
 
 const onFilterRandom = (picturesData) => {
   const activeFilter = document.querySelector('.img-filters__button--active');
@@ -30,6 +16,8 @@ const onFilterRandom = (picturesData) => {
   creatMiniatures(randomPicturesData);
 };
 
+const filterDiscussedButton = document.querySelector('#filter-discussed');
+
 const onFilterDiscussed = (picturesData) => {
   const activeFilter = document.querySelector('.img-filters__button--active');
   activeFilter.classList.remove('img-filters__button--active');
@@ -41,6 +29,19 @@ const onFilterDiscussed = (picturesData) => {
     miniature.remove();
   }
   creatMiniatures(sortedPicturesData);
+};
+
+const filterDefaultButton = document.querySelector('#filter-default');
+
+const onFilterDefault = (picturesData) => {
+  const activeFilter = document.querySelector('.img-filters__button--active');
+  activeFilter.classList.remove('img-filters__button--active');
+  filterDefaultButton.classList.add('img-filters__button--active');
+  const createdMiniatures = document.querySelectorAll('.picture');
+  for (const miniature of createdMiniatures) {
+    miniature.remove();
+  }
+  creatMiniatures(picturesData);
 };
 
 const setFilterDefaultClick = (cb) => {
@@ -61,5 +62,9 @@ const setFilterDiscussedClick = (cb) => {
   });
 };
 
-export {imgFilters, setFilterDefaultClick, setFilterRandomClick, setFilterDiscussedClick,
-  onFilterDefault, onFilterRandom, onFilterDiscussed};
+const imgFilters = document.querySelector('.img-filters');
+
+export {
+  imgFilters, setFilterDefaultClick, setFilterRandomClick, setFilterDiscussedClick,
+  onFilterDefault, onFilterRandom, onFilterDiscussed
+};

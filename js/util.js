@@ -1,6 +1,4 @@
-const isEscapeKey = (evt) => evt.keyCode === 27;
-
-function debounce (callback, timeoutDelay = 500) {
+function debounce(callback, timeoutDelay = 500) {
   let timeoutId;
 
   return (...rest) => {
@@ -18,4 +16,5 @@ const shuffleArray = (array) => {
   return arrCopy;
 };
 
-export {isEscapeKey, debounce, shuffleArray};
+const isEscapeKey = (evt) => evt.keyCode === 27;
+export { isEscapeKey, debounce, shuffleArray };

@@ -1,12 +1,12 @@
-import {maxScaleValue, minScaleValue, scaleStep} from './constants.js';
+import { maxScaleValue, minScaleValue, scaleStep } from './constants.js';
 
 const scaleControlSmaller = document.querySelector('.scale__control--smaller');
-const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const scaleControlValue = document.querySelector('.scale__control--value');
-const imgUploadPreview = document.querySelector('.img-upload__preview');
 
 scaleControlValue.setAttribute('value', `${maxScaleValue}%`);
 let currentScale;
+
+const imgUploadPreview = document.querySelector('.img-upload__preview');
 
 scaleControlSmaller.addEventListener('click', () => {
   if (currentScale > minScaleValue) {
@@ -16,6 +16,7 @@ scaleControlSmaller.addEventListener('click', () => {
   }
 });
 
+const scaleControlBigger = document.querySelector('.scale__control--bigger');
 scaleControlBigger.addEventListener('click', () => {
   if (currentScale < maxScaleValue) {
     currentScale += scaleStep;
@@ -28,4 +29,4 @@ const setCurrentScale = (value) => {
   currentScale = value;
 };
 
-export {setCurrentScale, imgUploadPreview};
+export { setCurrentScale, imgUploadPreview };

@@ -1,10 +1,12 @@
-import {creatMiniatures} from './draw-miniatures.js';
-import {renderBigPicture} from './big-picture-modal.js';
-import {showSuccessMessage, showErrorMessage, showLoadErrorMessage} from './fetch-messages.js';
-import {closeUploadModal, uploadModal, imgUploadSubmit} from './upload-form.js';
-import {imgFilters, setFilterDefaultClick, setFilterRandomClick, setFilterDiscussedClick,
-  onFilterDefault, onFilterRandom, onFilterDiscussed} from './img-filters.js';
-import {debounce} from './util.js';
+import { creatMiniatures } from './draw-miniatures.js';
+import { renderBigPicture } from './big-picture-modal.js';
+import { showSuccessMessage, showErrorMessage, showLoadErrorMessage } from './fetch-messages.js';
+import { closeUploadModal, uploadModal, imgUploadSubmit } from './upload-form.js';
+import {
+  imgFilters, setFilterDefaultClick, setFilterRandomClick, setFilterDiscussedClick,
+  onFilterDefault, onFilterRandom, onFilterDiscussed
+} from './img-filters.js';
+import { debounce } from './util.js';
 
 const loadData = () => fetch('https://29.javascript.pages.academy/kekstagram/data')
   .then((response) => {
@@ -43,4 +45,4 @@ const uploadData = (formData) => fetch('https://29.javascript.pages.academy/keks
     imgUploadSubmit.disabled = false;
   });
 
-export {loadData, uploadData};
+export { loadData, uploadData };

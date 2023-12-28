@@ -1,5 +1,3 @@
-const validHashtag = /^#[a-zа-я0-9]{1,19}|^$/i;
-
 const hashtagMaxCount = 5;
 
 const hashtagErrorMessages = [
@@ -10,8 +8,8 @@ const hashtagErrorMessages = [
 
 const maxScaleValue = 100;
 const minScaleValue = 25;
+const validHashtag = /^#[a-zа-я0-9]{1,19}|^$/i;
 const scaleStep = 25;
-
 const shownRandomCount = 10;
 
-export {validHashtag, hashtagMaxCount, hashtagErrorMessages, maxScaleValue, minScaleValue, scaleStep, shownRandomCount};
+export { validHashtag, hashtagMaxCount, hashtagErrorMessages, maxScaleValue, minScaleValue, scaleStep, shownRandomCount };
